@@ -200,10 +200,11 @@ app.post('/dfwebhook/:project_id', (req, res) => {
     
           var df_res = {}
           if (valid) {
-            df_res['fulfillmentText'] = "Ti stiamo passando un agente... \\agent"
-          }
-          else {
-            df_res['fulfillmentText'] = "Al momento gli agenti non sono disponibili, riprova da lunedì a venerdì 9:00 - 13:00 / 14:00 - 18:00."
+            df_res['fulfillmentText'] = "Ti stiamo passando un agente... \\agent";
+            console.log("valid");
+          } else {
+            df_res['fulfillmentText'] = "Al momento gli agenti non sono disponibili, riprova da lunedì a venerdì 9:00 - 13:00 / 14:00 - 18:00. Nel frattempo puoi contattarci tramite il nostro modulo: https://netvalue.eu/contatti/";
+            console.log("not valid");
           }
           res.status(200).send(JSON.stringify(df_res));
         // })
