@@ -28,6 +28,10 @@ async function runDialogflowQuery(text, sessionId, language_code, credentials) {
   return result;
 }
 
+app.get('/',(req,res) => {
+  return res.send('Hello');
+});
+
 // Tutorial 1 - Basic Dialogflow extarnal endpoint
 app.post("/bot/:botid", (req, res) => {
   // for cloud apis initialize like the this:
