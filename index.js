@@ -185,6 +185,7 @@ app.post('/dfwebhook/:project_id', (req, res) => {
         // const tdclient = new TiledeskClient()
         // tdclient.openNow(project_id, resbody.token, function(isopen) {
           var fulldate = new Date();
+          fulldate.setHours(fulldate.getHours()+1);
           console.log(fulldate);
           var weekday = fulldate.getDay();
           var valid = 0;
