@@ -180,23 +180,52 @@ app.post('/dfwebhook/:project_id', (req, res) => {
   const project_id = req.params.project_id
   const intent = req.body.queryResult.intent.displayName.toUpperCase()
   if (intent === "TALK TO AGENT") {
-    TiledeskClient.anonymousAuthentication(project_id, function(err, res, resbody) {
-      if (resbody && resbody.token) {
-        const tdclient = new TiledeskClient()
-        tdclient.openNow(project_id, resbody.token, function(isopen) {
+    // TiledeskClient.anonymousAuthentication(project_id, function(err, res, resbody) {
+      // if (resbody && resbody.token) {
+        // const tdclient = new TiledeskClient()
+        // tdclient.openNow(project_id, resbody.token, function(isopen) {
+          var fulldate = new Date();
+          console.log(fulldate);
+          var weekday = fulldate.getDay();
+          var valid = 0;
+
+          if (checkTime('09:00:00', '13:00:00') || checkTime('14:00:00', '18:00:00')) {
+            valid = 1;
+          } else
+            valid = 0;
+
+          if ((weekday == 0) || (weekday == 6))
+            valid = 0;
+    
           var df_res = {}
-          if (isopen) {
-            df_res['fulfillmentText'] = "We are open! Switching to agent\\agent"
+          if (valid) {
+            df_res['fulfillmentText'] = "Ti stiamo passando un agente... \\agent"
           }
           else {
-            df_res['fulfillmentText'] = "I'm sorry but we are closed right now."
+            df_res['fulfillmentText'] = "Al momento gli agenti non sono disponibili, riprova da lunedì a venerdì 9:00 - 13:00 / 14:00 - 18:00."
           }
           res.status(200).send(JSON.stringify(df_res));
-        })
-      }
-    })
+        // })
+      // }
+    // })
   }
 });
+
+function checkTime(startTime, endTime) {
+  var currentDate = new Date()   
+    
+  startDate = new Date(currentDate.getTime());
+  startDate.setHours(startTime.split(":")[0]);
+  startDate.setMinutes(startTime.split(":")[1]);
+  startDate.setSeconds(startTime.split(":")[2]);
+    
+  endDate = new Date(currentDate.getTime());
+  endDate.setHours(endTime.split(":")[0]);
+  endDate.setMinutes(endTime.split(":")[1]);
+  endDate.setSeconds(endTime.split(":")[2]);
+    
+  return startDate < currentDate && endDate > currentDate;
+}
 
 var port = process.env.PORT || 3000;
 app.listen(port, () => {
