@@ -204,10 +204,16 @@ app.post('/dfwebhook/:project_id', (req, res) => {
     
           var df_res = {}
           if (valid) {
-            df_res['fulfillmentText'] = "Ti stiamo passando un agente... \\agent";
+            if (languageCode == "it")
+              df_res['fulfillmentText'] = "Ti stiamo passando un agente... \\agent";
+            else
+              df_res['fulfillmentText'] = "We're handing you an agent... \\agent";
             console.log("valid");
           } else {
-            df_res['fulfillmentText'] = "Al momento gli agenti non sono disponibili, riprova da lunedì a venerdì 9:00 - 13:00 / 14:00 - 18:00. Nel frattempo puoi contattarci tramite il nostro modulo: https://netvalue.eu/contatti/";
+            if (languageCode == "it")
+              df_res['fulfillmentText'] = "Al momento gli agenti non sono disponibili, riprova da lunedì a venerdì 9:00 - 13:00 / 14:00 - 18:00. Nel frattempo puoi contattarci tramite il nostro modulo: https://netvalue.eu/contatti/";
+            else
+              df_res['fulfillmentText'] = "Agents are currently unavailable, please try again Monday through Friday 9:00 - 13:00 / 14:00 - 18:00. In the meantime, you can contact us via our form: https://netvalue.eu/en/contact-us/";
             console.log("not valid");
           }
           res.status(200).send(JSON.stringify(df_res));
