@@ -236,7 +236,7 @@ function checkTime(startTime, endTime) {
   endDate.setMinutes(endTime.split(":")[1]);
   endDate.setSeconds(endTime.split(":")[2]);
     
-  return startDate < currentDate && endDate > currentDate;
+  return startDate <= currentDate && endDate >= currentDate;
 }
 
 var port = process.env.PORT || 3000;
